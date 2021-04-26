@@ -281,6 +281,9 @@ var convertValue = module.exports.convertValue = function (value, schema, type, 
     if (_.isString(value)) {
       try {
         value = JSON.parse(value);
+        if (value === Infinity) {
+          value = original;
+        }
       } catch (err) {
         value = original;
       }
