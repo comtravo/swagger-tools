@@ -32,8 +32,6 @@ var validators = require('../lib/validators');
 var parseurl = require('parseurl');
 var qs = require('qs');
 
-var CT_MONGO_ID_TEXT='CT_MONGO_ID';
-
 var isModelType = module.exports.isModelType = function (spec, type) {
   return spec.primitives.indexOf(type) === -1;
 };
