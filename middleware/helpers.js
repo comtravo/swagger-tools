@@ -27,11 +27,12 @@
 /* This module contains code that is reused in more than one of the Swagger middlewares */
 
 var _ = require('lodash');
+var MongoObjectId = require('mongodb').ObjectID;
+var parseurl = require('parseurl');
+
 var helpers = require('../lib/helpers');
 var validators = require('../lib/validators');
-var parseurl = require('parseurl');
 var qs = require('qs');
-
 var isModelType = module.exports.isModelType = function (spec, type) {
   return spec.primitives.indexOf(type) === -1;
 };
@@ -313,5 +314,5 @@ var convertValue = module.exports.convertValue = function (value, schema, type, 
 };
 
 function isPossibleMongoId(value) {
-  return /^[a-f\d]{24}$/i.test(value);
+  return MongoObjectId.isValid(value);
 }
