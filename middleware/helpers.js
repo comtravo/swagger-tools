@@ -32,6 +32,8 @@ var validators = require('../lib/validators');
 var parseurl = require('parseurl');
 var qs = require('qs');
 
+var CT_MONGO_ID_TEXT='CT_MONGO_ID';
+
 var isModelType = module.exports.isModelType = function (spec, type) {
   return spec.primitives.indexOf(type) === -1;
 };
@@ -280,9 +282,10 @@ var convertValue = module.exports.convertValue = function (value, schema, type, 
   case 'object':
     if (_.isString(value)) {
       try {
-        value = JSON.parse(value);
-        if (value === Infinity) {
+        if (isPossibleMongoId(value)) {
           value = original;
+        } else {
+          value = JSON.parse(value);
         }
       } catch (err) {
         value = original;
@@ -310,3 +313,7 @@ var convertValue = module.exports.convertValue = function (value, schema, type, 
 
   return value;
 };
+
+function isPossibleMongoId(value) {
+  return /^[a-f\d]{24}$/i.test(value);
+}
